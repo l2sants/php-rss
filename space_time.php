@@ -8,21 +8,17 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">rss</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="./space_time.php">Space time</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./computer_programming.php">Computer programming</a>
-        </li>
-
-        </ul>
-    </div>
+        <a class="navbar-brand" href="/">rss</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="./space_time.php">Space time</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
 <?php
@@ -34,7 +30,7 @@ $doc = simplexml_load_file("./xml/space_time.xml");
 $base = $doc->channel->item;
 
 $idx = 0;
-$erro_msg = "";
+$erro_msg = null;
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $index = $_POST['index']-1;
     $doc = simplexml_load_file("./xml/space_time.xml");
@@ -57,12 +53,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }?>
 
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong>Erro: </strong><?php echo $erro_msg; ?>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<?php
+
+if($erro_msg) { ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong><?php echo $erro_msg; ?> </strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php } ?>
 
 <?php foreach ($base as $item ) { ?>
     <div class="p-3 d-flex justify-content-center">
