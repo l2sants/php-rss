@@ -11,12 +11,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $p = str_replace("'", "`", $base[$index]->pubDate);
     $l = str_replace("'", "`", $base[$index]->link);
    
-    $category = "./pages/" . explode(".", $file_name)[0] . ".php";
-    $db = new SQLite3('../news.db');
-    $db->exec('CREATE TABLE IF NOT EXISTS post(id INTEGER PRIMARY KEY, title TEXT UNIQUE, desc TEXT UNIQUE, link TEXT UNIQUE, dtpub DATE UNIQUE)');
+    
+    $db_news = new SQLite3('../db/news.db');
     try {
         $alert_msg = "";
-        if(!$db->exec("INSERT INTO post(title, desc, link, dtpub)VALUES('$t', '$d', '$l', '$p')")) {
+        if(!$db_news->exec("INSERT INTO post(title, desc, link, dtpub)VALUES('$t', '$d', '$l', '$p')")) {
             throw new Exception('Não é possivel salvar uma noticia duas vezes');
         }else {
             $alert_msg = '<div class="alert alert-success" role="alert">
